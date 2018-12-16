@@ -1,0 +1,221 @@
+
+    <h2>Categories</h2>
+    <hr/>
+    <div class="row">
+
+        <div class="col-lg-5">
+            <h4>Add New</h4>
+            <form id = "catform">
+                <div class="form-group">
+                    <label for="category-name">Enter name</label>
+                   <input type="text" class="form-control" id="category-name" />
+                    <div class="invalid-feedback">
+                        Category required
+                    </div>
+                </div>
+                <div class="form-group">
+                        <label for="category-desc">Description</label>
+                        <input type="text" class="form-control" id="category-desc"/>
+                        <div class="invalid-feedback">
+                                Description required
+                            </div>
+                    </div>
+                 <div class="form-group">
+                        <label for="category-thumbnail"></label>
+                        <input type="file"  id="category-thumbnail">
+                        <div class="invalid-feedback">
+                                Please choose a valid image
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <img id="thumbnail" width="250" height="150 " src="#">
+                    </div>
+                 <div class="form-group">
+                     <div class="progress">
+                        <div class="progress-bar" id="upload-progress" style="width:0%">0%</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="button" id="save-category" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+            <div id="result">
+
+            </div>
+        </div>
+
+        <div class="col-lg-7">
+
+            <h4>Saved Categories</h4>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Thumbnail</th>
+                    </tr>
+                </thead>
+                <tbody id="categories">
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    
+<script>
+
+    var valid = ["image/gif","image/png","image/jpg","image/jpeg"];
+
+    $("#thumbnail").hide();
+
+    function preview(thumbnail){
+        if(thumbnail.files && thumbnail.files[0]){
+            var read =  new FileReader();
+
+            read.onload = function(e){
+                $("#thumbnail").attr('src',e.target.result);
+                $("#thumbnail").fadeIn();
+            }
+
+            read.readAsDataURL(thumbnail.files[0]);
+        }
+    }
+
+    $("#category-thumbnail").change(function(){
+
+        preview(this);
+
+    });
+
+    $("#save-category").click(function(){
+        
+        
+        $("#category-thumbnail").removeClass("is-invalid");
+        $("#category-desc").removeClass("is-invalid");
+        $("#category-name").removeClass("is-invalid");
+            
+
+        var catname = $("#category-name").val();
+        console.log(catname);
+        var desc = $("#category-desc").val();
+        var thumbnail = $("#category-thumbnail").prop("files")[0];
+
+        if(!catname){
+            $("#category-name").addClass("is-invalid");
+        }
+        if(!desc){
+            $("#category-desc").addClass("is-invalid");
+        }
+        if(thumbnail == null){
+            $("#category-thumbnail").addClass("is-invalid");
+        }
+        if($.inArray(thumbnail["type"],valid)<0){
+            $("#category-thumbnail").addClass("is-invalid");
+            
+        }
+        
+
+           
+             
+
+                 var name  = thumbnail["name"];
+                 
+                 var ext = name.substring(name.lastIndexOf("."),name.length);
+
+                 var thumbname = new Date().getTime();
+                 var storageref = firebase.storage().ref(catname+"/"+thumbname+ext);
+                  var  uploadtask = storageref.put(thumbnail);
+                
+
+
+                uploadtask.on("state_changed",
+
+                    function progress(snapshot){
+                        var precentage = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
+                        console.log(precentage);
+                        $("#upload-progress").html(Math.round(precentage)+"%");
+                        $("#upload-progress").attr("style","width:"+precentage+"%");
+
+                        
+                    },
+
+                    function error(err){
+
+                    },
+                    function complete(){
+                           
+                        storageref.getDownloadURL().then(function(url){
+                    
+                            firebase.database().ref('Categories/'+ catname).set({
+                                thumbnailurl: url,
+                                desc:desc
+                   }, function(error) {
+                if (error) {
+                   
+                               $("#result").attr("class","alert alert-danger");
+                               $("#result").html(err.message);;
+                } else {
+           
+                      
+                      $("#result").attr("class","alert alert-success");
+                      $("#result").html("Category Added");;
+                            resetfrom();
+                }
+               });
+
+                        });
+                   }
+                );
+
+    });
+    
+    function resetfrom(){
+        $("#catform")[0].reset();
+        $("#thumbnail").fadeOut();
+        $("#upload-progress").html("Completed");
+    }
+
+    var dbcat = firebase.database().ref("Categories");
+    
+    
+
+// Get a database reference to our posts
+
+var ref = firebase.database().ref("Categories");
+    
+// Attach an asynchronous callback to read the data at our posts reference
+
+    
+    dbcat.on("value",function(Categories){
+        console.log("hello");
+        if(Categories.exists()){
+           //     console.log("hello");
+            var categorieshtml = "";
+            Categories.forEach(function(Category){
+
+                categorieshtml += "<tr>";
+
+                categorieshtml +="<td>";
+                categorieshtml += Category.key;
+                categorieshtml +="</td>";
+
+                 categorieshtml +="<td>";
+                categorieshtml += Category.val().desc;
+                categorieshtml +="</td>";
+                
+                categorieshtml +="<td> <img  width = '200' height= '150' src = '";
+                categorieshtml += Category.val().thumbnailurl;
+                categorieshtml +="'/></td>";
+
+                 categorieshtml += "</tr>";
+                
+
+            });
+            $("#categories").html(categorieshtml);
+        }
+
+    });
+
+
+</script>
