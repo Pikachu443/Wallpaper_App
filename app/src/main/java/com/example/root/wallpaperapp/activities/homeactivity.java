@@ -11,6 +11,7 @@ import com.example.root.wallpaperapp.R;
 import com.example.root.wallpaperapp.fragments.favfragment;
 import com.example.root.wallpaperapp.fragments.fragmenthome;
 import com.example.root.wallpaperapp.fragments.settingsfragment;
+import com.google.android.gms.ads.MobileAds;
 
 public class homeactivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
@@ -27,6 +28,10 @@ public class homeactivity extends AppCompatActivity implements BottomNavigationV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homeactivity);
+
+        MobileAds.initialize(this,
+                "ca-app-pub-7635925033011324~8464973331");
+
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomnav);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);

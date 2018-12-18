@@ -194,7 +194,9 @@ public class wallpaperadapter extends RecyclerView.Adapter<wallpaperadapter.Cate
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return Uri.fromFile(file1);
+
+
+            return FileProvider.getUriForFile(cntxt, cntxt.getApplicationContext().getPackageName()+".provider",file);
 
         }
 

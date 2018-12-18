@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import com.bumptech.glide.Glide;
 import com.example.root.wallpaperapp.R;
 import com.example.root.wallpaperapp.activities.WallpaperActivity;
 import com.example.root.wallpaperapp.models.Categories;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 
 import java.util.List;
 import java.util.Locale;
@@ -23,10 +26,18 @@ public class categoriesadapter extends RecyclerView.Adapter<categoriesadapter.Ca
 
     private Context cntxt;
     private List<Categories> categorylist;
+    private InterstitialAd mInterstitialAd;
+
 
     public categoriesadapter(Context cntxt, List<Categories> categorylist) {
         this.cntxt = cntxt;
         this.categorylist = categorylist;
+
+        mInterstitialAd = new InterstitialAd(cntxt);
+        mInterstitialAd.setAdUnitId("ca-app-pub-7635925033011324/9366991465");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
+
     }
 
 
@@ -74,7 +85,14 @@ public class categoriesadapter extends RecyclerView.Adapter<categoriesadapter.Ca
         @Override
         public void onClick(View v) {
 
-           int pos =  getAdapterPosition();
+            if (mInterstitialAd.isLoaded()) {
+                mInterstitialAd.show();
+            } else {
+                Log.i("TAG", "The interstitial wasn't loaded yet.");
+            }
+
+
+            int pos =  getAdapterPosition();
 
            Categories c = categorylist.get(pos);
 
