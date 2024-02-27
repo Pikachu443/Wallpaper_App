@@ -1,0 +1,14 @@
+name: Lint
+on: push
+jobs:
+  lint:
+    name: Lint
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v1
+      - run: ./percy.exe exec -- echo "x"
+        env:
+          PERCY_TOKEN: web_db525f4a29aaecffbb797eaa4d7f08807e5893572f93c2a9cf083c49f4534d68
+          ENVIRONMENT: executable
+          PERCY_LOG_LEVEL: debug
+          RUNNER_TRACKING_ID: ""
