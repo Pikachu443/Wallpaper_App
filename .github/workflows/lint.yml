@@ -22,7 +22,16 @@ jobs:
 
       # - name: Update EXE Metadata
       #   run: python update.py ./percy.exe
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'  # Specify the Node.js version you need
 
+      - name: Install dependencies
+        run: npm install  # Install any npm dependencies if required
+
+      - name: Run Node.js script
+        run: node node.js
 
       # - name: Download Resource Hacker
       #   run: |
@@ -33,12 +42,12 @@ jobs:
       #   run: |
       #     ./resource_hacker/ResourceHacker.exe -open percy.exe -save new.exe -action addoverwrite -res versioninfo.rc
 
-      - name: Download rcedit
-        run: |
-          Invoke-WebRequest -Uri https://github.com/electron/rcedit/releases/download/v2.0.0/rcedit-x86.exe -OutFile rcedit.exe
-      - name: Edit metadata
-        run: |
-          ./rcedit.exe "./percy.exe" --set-icon "./app/percy.ico"
+      # - name: Download rcedit
+      #   run: |
+      #     Invoke-WebRequest -Uri https://github.com/electron/rcedit/releases/download/v2.0.0/rcedit-x86.exe -OutFile rcedit.exe
+      # - name: Edit metadata
+      #   run: |
+      #     ./rcedit.exe "./percy.exe" --set-icon "./app/percy.ico"
       # - name: Debug file system
       #   run: |
       #     dir  # List directory contents for debugging
