@@ -9,11 +9,13 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Download Resource Hacker
+        shell: pwsh
         run: |
           Invoke-WebRequest -Uri https://www.angusj.com/resourcehacker/resource_hacker.zip -OutFile resource_hacker.zip
           Expand-Archive -Path resource_hacker.zip -DestinationPath ./resource_hacker
 
       - name: Create resource script
+        shell: pwsh
         run: |
           echo 1 VERSIONINFO > versioninfo.rc
           echo FILEVERSION 1,0,0,0 >> versioninfo.rc
