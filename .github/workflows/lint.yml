@@ -5,6 +5,8 @@ jobs:
     name: Lint
     runs-on: windows-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
       - name: Download rcedit
         run: |
           Invoke-WebRequest -Uri https://github.com/electron/rcedit/releases/download/v1.1.1/rcedit-x64.exe -OutFile rcedit.exe
