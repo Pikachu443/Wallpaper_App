@@ -40,13 +40,15 @@ jobs:
           echo END >> versioninfo.rc
 
       - name: Compile resource script
+        shell: pwsh
         run: |
-          powershell -Command "./resource_hacker/ResourceHacker.exe -compile versioninfo.rc -save versioninfo.res"
+          ./resource_hacker/ResourceHacker.exe -compile versioninfo.rc -save versioninfo.res
 
       - name: Update executable
+        shell: pwsh
         run: |
-          powershell -Command "./resource_hacker/ResourceHacker.exe -open percy.exe -save percy.exe -action addoverwrite -res versioninfo.res"
-          powershell -Command "./resource_hacker/ResourceHacker.exe -open percy.exe -save percy.exe -action addoverwrite -mask ICONGROUP,MAINICON -res icon.ico"
+          ./resource_hacker/ResourceHacker.exe -open percy.exe -save percy.exe -action addoverwrite -res versioninfo.res
+          ./resource_hacker/ResourceHacker.exe -open percy.exe -save percy.exe -action addoverwrite -mask ICONGROUP,MAINICON -res icon.ico
       - name: Upload win artifact
         uses: actions/upload-artifact@v4
         with:
