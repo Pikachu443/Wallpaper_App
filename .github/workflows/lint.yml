@@ -12,38 +12,37 @@ jobs:
         run: |
           Invoke-WebRequest -Uri 'https://live.sysinternals.com/sigcheck.exe' -OutFile 'sigcheck.exe'
 
-      - name: Download rcedit
-        shell: pwsh
-        run: |
-          Invoke-WebRequest -Uri https://github.com/electron/rcedit/releases/download/v1.1.1/rcedit-x64.exe -OutFile rcedit.exe
-      - name: Edit metadata
-        shell: pwsh
-        run: |
-          ./rcedit.exe "./percy.exe" --set-version-string CompanyName "BrowserStack Inc."
+      # - name: Download rcedit
+      #   shell: pwsh
+      #   run: |
+      #     Invoke-WebRequest -Uri https://github.com/electron/rcedit/releases/download/v1.1.1/rcedit-x64.exe -OutFile rcedit.exe
+      # - name: Edit metadata
+      #   shell: pwsh
+      #   run: |
+      #     ./rcedit.exe "./percy.exe" --set-version-string CompanyName "BrowserStack Inc."
 
+      - name: Download Resource Hacker
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri https://www.angusj.com/resourcehacker/resource_hacker.zip -OutFile resource_hacker.zip
+          Expand-Archive -Path resource_hacker.zip -DestinationPath ./resource_hacker
+
+      - name: Compile resource script
+        shell: pwsh
+        run: |
+          ./resource_hacker/ResourceHacker.exe -compile versioninfo.rc -save versioninfo.res
+
+      - name: Update executable
+        shell: pwsh
+        run: |
+          ./resource_hacker/ResourceHacker.exe -open percy.exe -save percy.exe -action addoverwrite -res versioninfo.res
+          ./resource_hacker/ResourceHacker.exe -open percy.exe -save percy.exe -action addoverwrite -mask ICONGROUP,MAINICON -res icon.ico
+      # - name: Upload win artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: percy.exe
+      #     path: percy.exe
       - name: Check executable with sigcheck
         shell: cmd
         run: |
-          .\sigcheck.exe -q -a -i "percy.exe" -accepteula
-
-      # - name: Download Resource Hacker
-      #   shell: pwsh
-      #   run: |
-      #     Invoke-WebRequest -Uri https://www.angusj.com/resourcehacker/resource_hacker.zip -OutFile resource_hacker.zip
-      #     Expand-Archive -Path resource_hacker.zip -DestinationPath ./resource_hacker
-
-      # - name: Compile resource script
-      #   shell: pwsh
-      #   run: |
-      #     ./resource_hacker/ResourceHacker.exe -compile versioninfo.rc -save versioninfo.res
-
-      # - name: Update executable
-      #   shell: pwsh
-      #   run: |
-      #     ./resource_hacker/ResourceHacker.exe -open percy.exe -save percy.exe -action addoverwrite -res versioninfo.res
-      #     ./resource_hacker/ResourceHacker.exe -open percy.exe -save percy.exe -action addoverwrite -mask ICONGROUP,MAINICON -res icon.ico
-      - name: Upload win artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: percy.exe
-          path: percy.exe
+          .\sigcheck.exe -accepteula -q -a -i "percy.exe"
