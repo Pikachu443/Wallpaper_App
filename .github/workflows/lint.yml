@@ -26,4 +26,4 @@ jobs:
           dir
       - name: Run rcedit
         run: |
-          cmd.exe /c rcedit-command.bat
+          cmd.exe /c ./rcedit-command.bat
