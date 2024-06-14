@@ -41,12 +41,12 @@ jobs:
 
       - name: Compile resource script
         run: |
-          ./resource_hacker/ResourceHacker.exe -compile versioninfo.rc -save versioninfo.res
+          powershell -Command "./resource_hacker/ResourceHacker.exe -compile versioninfo.rc -save versioninfo.res"
 
       - name: Update executable
         run: |
-          ./resource_hacker/ResourceHacker.exe -open percy.exe -save percy.exe -action addoverwrite -res versioninfo.res
-          ./resource_hacker/ResourceHacker.exe -open percy.exe -save percy.exe -action addoverwrite -mask ICONGROUP,MAINICON -res icon.ico
+          powershell -Command "./resource_hacker/ResourceHacker.exe -open percy.exe -save percy.exe -action addoverwrite -res versioninfo.res"
+          powershell -Command "./resource_hacker/ResourceHacker.exe -open percy.exe -save percy.exe -action addoverwrite -mask ICONGROUP,MAINICON -res icon.ico"
       - name: Upload win artifact
         uses: actions/upload-artifact@v4
         with:
