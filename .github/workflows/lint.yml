@@ -5,11 +5,17 @@ jobs:
     name: Lint
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v1
-      - run: |
-          ls
-        env:
-          PERCY_TOKEN: web_db525f4a29aaecffbb797eaa4d7f08807e5893572f93c2a9cf083c49f4534d68
-          ENVIRONMENT: executable
-          PERCY_LOG_LEVEL: debug
-          RUNNER_TRACKING_ID: ""
+      - name: Download rcedit
+        run: |
+          Invoke-WebRequest -Uri https://github.com/electron/rcedit/releases/download/v1.1.1/rcedit-x64.exe -OutFile rcedit.exe
+      - name: Edit metadata
+        run: |
+          cmd.exe /c ./rcedit.exe "./percy.exe" ^
+          --set-version-string CompanyName "BrowserStack Inc." ^
+          --set-version-string FileDescription "Percy CLI Binary" ^
+          --set-version-string FileVersion "1.28.8" ^
+          --set-version-string InternalName "PercyCLI" ^
+          --set-version-string LegalCopyright "Copyright BrowserStack Limited" ^
+          --set-version-string OriginalFilename "PercyCLI" ^
+          --set-version-string ProductName "PercyCLI" ^
+          --set-version-string ProductVersion "1.28.8"
