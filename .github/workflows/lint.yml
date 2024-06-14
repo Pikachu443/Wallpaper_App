@@ -10,20 +10,24 @@ jobs:
           Invoke-WebRequest -Uri https://github.com/electron/rcedit/releases/download/v1.1.1/rcedit-x64.exe -OutFile rcedit.exe
       - name: Edit metadata
         run: |
-          echo rcedit.exe "./percy.exe" ^> ./rcedit-command.bat
-          echo --set-version-string CompanyName "Your Company" ^>> ./rcedit-command.bat
-          echo --set-version-string FileDescription "Your Application Description" ^>> ./rcedit-command.bat
-          echo --set-version-string FileVersion "1.0.0.0" ^>> ./rcedit-command.bat
-          echo --set-version-string InternalName "YourApp" ^>> ./rcedit-command.bat
-          echo --set-version-string LegalCopyright "© Your Company 2024" ^>> ./rcedit-command.bat
-          echo --set-version-string OriginalFilename "YourApp.exe" ^>> ./rcedit-command.bat
-          echo --set-version-string ProductName "Your Product" ^>> ./rcedit-command.bat
-          echo --set-version-string ProductVersion "1.0.0.0" ^>> ./rcedit-command.bat
-          echo --set-file-version "1.0.0.0" ^>> ./rcedit-command.bat
-          echo --set-product-version "1.0.0.0" ^>> ./rcedit-command.bat
+          echo rcedit.exe "./percy.exe" > rcedit-command.bat
+          echo --set-version-string CompanyName "Your Company" >> rcedit-command.bat
+          echo --set-version-string FileDescription "Your Application Description" >> rcedit-command.bat
+          echo --set-version-string FileVersion "1.0.0.0" >> rcedit-command.bat
+          echo --set-version-string InternalName "YourApp" >> rcedit-command.bat
+          echo --set-version-string LegalCopyright "© Your Company 2024" >> rcedit-command.bat
+          echo --set-version-string OriginalFilename "YourApp.exe" >> rcedit-command.bat
+          echo --set-version-string ProductName "Your Product" >> rcedit-command.bat
+          echo --set-version-string ProductVersion "1.0.0.0" >> rcedit-command.bat
+          echo --set-file-version "1.0.0.0" >> rcedit-command.bat
+          echo --set-product-version "1.0.0.0" >> rcedit-command.bat
       - name: List files in directory (debug step)
         run: |
           dir
+      - name: Display rcedit script content (debug step)
+        run: |
+          type rcedit-command.bat
+
       - name: Run rcedit
         run: |
-          cmd.exe /c ./rcedit-command.bat
+          cmd.exe /c rcedit-command.bat
