@@ -31,7 +31,7 @@ jobs:
       #   run: |
       #     dir  # List directory contents for debugging
       - name: Verify executable
-        run: ./new.exe --version
+        run: new.exe --version
       # - name: Upload win artifact
       #   uses: actions/upload-artifact@v4
       #   with:
@@ -41,4 +41,4 @@ jobs:
       - name: Check executable with sigcheck
         shell: cmd
         run: |
-          .\sigcheck.exe -accepteula -q -a -i "./percy.exe"
+          .\sigcheck.exe -accepteula -q -a -i "percy.exe"
