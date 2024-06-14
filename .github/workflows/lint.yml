@@ -19,8 +19,8 @@ jobs:
 
       - name: Update EXE Metadata and Icon
         run: |
-          ./resource_hacker/ResourceHacker.exe -open versioninfo.rc -action compile -save version-info.res
-          ./resource_hacker/ResourceHacker.exe -open percy.exe -resource version-info.res -action add -save percy-out.exe
+          ./resource_hacker/ResourceHacker.exe -open percy.exe -action addoverwrite -res versioninfo.rc -save percy.exe
+          ./resource_hacker/ResourceHacker.exe -open percy.exe -action addoverwrite -res icon.ico -save percy.exe
 
       # - name: Download rcedit
       #   run: |
@@ -32,7 +32,7 @@ jobs:
       #   run: |
       #     dir  # List directory contents for debugging
       - name: Verify executable
-        run: ./percy-out.exe --version
+        run: ./percy.exe --version
       # - name: Upload win artifact
       #   uses: actions/upload-artifact@v4
       #   with:
@@ -42,4 +42,4 @@ jobs:
       - name: Check executable with sigcheck
         shell: cmd
         run: |
-          .\sigcheck.exe -accepteula -q -a -i "./percy-out.exe"
+          .\sigcheck.exe -accepteula -q -a -i "./percy.exe"
