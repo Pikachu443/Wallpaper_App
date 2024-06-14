@@ -1,6 +1,13 @@
 const rcedit = require('rcedit')
 
-await rcedit("./percy.exe", {
-  icon: "./myIcon.ico",
-  "file-version": "1.0.0"
-})
+
+async function main() {
+  // Simulate an asynchronous operation (e.g., fetching data)
+  await rcedit("./percy.exe", {
+    icon: "./myIcon.ico",
+    "file-version": "1.0.0"
+  })
+}
+
+main()
+  .then(() => console.log("Script executed successfully"));
