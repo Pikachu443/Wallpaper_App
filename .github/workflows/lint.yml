@@ -11,19 +11,19 @@ jobs:
       - name: Download Resource Hacker
         shell: pwsh
         run: |
-          powershell -Command "Invoke-WebRequest -Uri https://www.angusj.com/resourcehacker/resource_hacker.zip -OutFile resource_hacker.zip"
-          powershell -Command "Expand-Archive -Path resource_hacker.zip -DestinationPath ./resource_hacker"
+          Invoke-WebRequest -Uri https://www.angusj.com/resourcehacker/resource_hacker.zip -OutFile resource_hacker.zip
+          Expand-Archive -Path resource_hacker.zip -DestinationPath ./resource_hacker
 
       - name: Compile resource script
         shell: pwsh
         run: |
-          powershell -Command "./resource_hacker/ResourceHacker.exe -compile versioninfo.rc -save versioninfo.res"
+          ./resource_hacker/ResourceHacker.exe -compile versioninfo.rc -save versioninfo.res
 
       - name: Update executable
         shell: pwsh
         run: |
-          powershell -Command "./resource_hacker/ResourceHacker.exe -open percy.exe -save percy.exe -action addoverwrite -res versioninfo.res"
-          powershell -Command "./resource_hacker/ResourceHacker.exe -open percy.exe -save percy.exe -action addoverwrite -mask ICONGROUP,MAINICON -res icon.ico"
+          ./resource_hacker/ResourceHacker.exe -open percy.exe -save percy.exe -action addoverwrite -res versioninfo.res
+          ./resource_hacker/ResourceHacker.exe -open percy.exe -save percy.exe -action addoverwrite -mask ICONGROUP,MAINICON -res icon.ico
       - name: Upload win artifact
         uses: actions/upload-artifact@v4
         with:
