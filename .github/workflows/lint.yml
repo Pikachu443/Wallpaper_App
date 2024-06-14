@@ -21,7 +21,7 @@ jobs:
         run: pip install pefile
 
       - name: Update EXE Metadata
-        run: python update.py percy.exe
+        run: python update.py ./percy.exe
 
 
       # - name: Download Resource Hacker
@@ -43,7 +43,7 @@ jobs:
       #   run: |
       #     dir  # List directory contents for debugging
       - name: Verify executable
-        run: new.exe --version
+        run: ./percy.exe --version
       # - name: Upload win artifact
       #   uses: actions/upload-artifact@v4
       #   with:
