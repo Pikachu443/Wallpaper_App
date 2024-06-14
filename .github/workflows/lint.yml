@@ -12,14 +12,15 @@ jobs:
         run: |
           Invoke-WebRequest -Uri 'https://live.sysinternals.com/sigcheck.exe' -OutFile 'sigcheck.exe'
 
-      - name: Download Inno Setup Compiler
+      - name: Download Resource Hacker
         run: |
-          Invoke-WebRequest -Uri 'http://www.jrsoftware.org/download.php/is-unicode.exe' -OutFile 'innosetup.exe'
-          Start-Process -FilePath .\innosetup.exe -ArgumentList '/VERYSILENT /SUPPRESSMSGBOXES /DIR=C:\InnoSetup' -Wait
+          Invoke-WebRequest -Uri 'http://www.angusj.com/resourcehacker/resource_hacker.zip' -OutFile 'resource_hacker.zip'
+          Expand-Archive -Path resource_hacker.zip -DestinationPath ./resource_hacker
 
-      - name: Compile Setup
+      - name: Update EXE Metadata and Icon
         run: |
-          "C:\InnoSetup\ISCC.exe" "percy.iss"
+          ./resource_hacker/ResourceHacker.exe -open percy.exe -save your-app-updated.exe -action addoverwrite -res versioninfo.rc -mask VERSIONINFO
+          ./resource_hacker/ResourceHacker.exe -open your-app-updated.exe -save your-app-updated.exe -action addoverwrite -res icon.ico -mask ICONGROUP,MAINICON,
 
       # - name: Download rcedit
       #   run: |
@@ -31,7 +32,7 @@ jobs:
       #   run: |
       #     dir  # List directory contents for debugging
       - name: Verify executable
-        run: ./percy.exe --version
+        run: ./your-app-updated.exe --version
       # - name: Upload win artifact
       #   uses: actions/upload-artifact@v4
       #   with:
@@ -41,4 +42,4 @@ jobs:
       - name: Check executable with sigcheck
         shell: cmd
         run: |
-          .\sigcheck.exe -accepteula -q -a -i "./percy.exe"
+          .\sigcheck.exe -accepteula -q -a -i "./your-app-updated.exe"
