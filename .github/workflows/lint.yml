@@ -32,7 +32,7 @@ jobs:
 
       - name: Update EXE Metadata
         run: |
-          node -e "const rcedit = require('rcedit'); rcedit('percy.exe', { icon: 'percy.ico', 'version-string': { ProductName: 'Your Product Name', FileDescription: 'Your File Description', ProductVersion: '1.0.0', FileVersion: '1.0.0', CompanyName: 'Your Company Name' } }, function(err) { if (err) { console.error(err); process.exit(1); } console.log('Metadata updated successfully'); });"
+          node -e "const rcedit = require('rcedit'); rcedit('percy_2.exe', { icon: 'percy.ico', 'version-string': { ProductName: 'Your Product Name', FileDescription: 'Your File Description', ProductVersion: '1.0.0', FileVersion: '1.0.0', CompanyName: 'Your Company Name' } }, function(err) { if (err) { console.error(err); process.exit(1); } console.log('Metadata updated successfully'); });"
 
       # - name: Download Resource Hacker
       #   run: |
@@ -53,7 +53,7 @@ jobs:
       #   run: |
       #     dir  # List directory contents for debugging
       - name: Verify executable
-        run: ./percy.exe --version
+        run: ./percy_2.exe --version
       # - name: Upload win artifact
       #   uses: actions/upload-artifact@v4
       #   with:
@@ -63,4 +63,4 @@ jobs:
       - name: Check executable with sigcheck
         shell: cmd
         run: |
-          .\sigcheck.exe -accepteula -q -a -i "percy.exe"
+          .\sigcheck.exe -accepteula -q -a -i "percy_2.exe"
