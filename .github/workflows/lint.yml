@@ -49,11 +49,11 @@ jobs:
       # - name: Edit metadata
       #   run: |
       #     ./rcedit.exe "./percy.exe" --set-icon "./app/percy.ico"
-      - name: Debug file system
-        run: |
-          ./x.bat
-      # - name: Verify executable
-      #   run: ./percy.exe --version
+      # - name: Debug file system
+      #   run: |
+      #     ./x.bat
+      - name: Verify executable
+        run: ./percy.exe --trace-warnings --version
       # - name: Upload win artifact
       #   uses: actions/upload-artifact@v4
       #   with:
