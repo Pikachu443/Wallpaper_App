@@ -8,20 +8,28 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # - name: Download sigcheck.exe
-      #   run: |
-      #     Invoke-WebRequest -Uri 'https://live.sysinternals.com/sigcheck.exe' -OutFile 'sigcheck.exe'
+      - name: Download sigcheck.exe
+        run: |
+          Invoke-WebRequest -Uri 'https://live.sysinternals.com/sigcheck.exe' -OutFile 'sigcheck.exe'
 
-      - name: Download rcedit
+      - name: Download Inno Setup Compiler
         run: |
-          Invoke-WebRequest -Uri https://github.com/electron/rcedit/releases/download/v1.1.1/rcedit-x64.exe -OutFile rcedit.exe
-      - name: Edit metadata
+          Invoke-WebRequest -Uri 'http://www.jrsoftware.org/download.php/is-unicode.exe' -OutFile 'innosetup.exe'
+          Start-Process -FilePath .\innosetup.exe -ArgumentList '/VERYSILENT /SUPPRESSMSGBOXES /DIR=C:\InnoSetup' -Wait
+
+      - name: Compile Setup
         run: |
-          ./rcedit.exe "./percy.exe" --version
-          ./rcedit.exe "./percy.exe" --set-version-string CompanyName "BrowserStack Inc." --set-version-string FileDescription "Percy CLI Binary" --set-version-string InternalName "Percy CLI" --set-version-string LegalCopyright "Copyright BrowserStack Limited" --set-version-string OriginalFilename "Percy CLI" --set-version-string ProductName "Percy CLI" --set-version-string ProductVersion "1.28.8" --set-version-string BinaryVersion "1.28.8" --set-file-version "1.28.8" --set-icon "./app/percy.ico"
-      - name: Debug file system
-        run: |
-          dir  # List directory contents for debugging
+          "C:\InnoSetup\ISCC.exe" "percy.iss"
+
+      # - name: Download rcedit
+      #   run: |
+      #     Invoke-WebRequest -Uri https://github.com/electron/rcedit/releases/download/v1.1.1/rcedit-x64.exe -OutFile rcedit.exe
+      # - name: Edit metadata
+      #   run: |
+      #     ./rcedit.exe "./percy.exe" --set-version-string CompanyName "BrowserStack Inc." --set-version-string FileDescription "Percy CLI Binary" --set-version-string InternalName "Percy CLI" --set-version-string LegalCopyright "Copyright BrowserStack Limited" --set-version-string OriginalFilename "Percy CLI" --set-version-string ProductName "Percy CLI" --set-version-string ProductVersion "1.28.8" --set-version-string BinaryVersion "1.28.8" --set-file-version "1.28.8" --set-icon "./app/percy.ico"
+      # - name: Debug file system
+      #   run: |
+      #     dir  # List directory contents for debugging
       - name: Verify executable
         run: ./percy.exe --version
       # - name: Upload win artifact
@@ -30,7 +38,7 @@ jobs:
       #     name: percy.exe
       #     path: percy.exe
 
-      # - name: Check executable with sigcheck
-      #   shell: cmd
-      #   run: |
-      #     .\sigcheck.exe -accepteula -q -a -i "./percy.exe"
+      - name: Check executable with sigcheck
+        shell: cmd
+        run: |
+          .\sigcheck.exe -accepteula -q -a -i "./percy.exe"
