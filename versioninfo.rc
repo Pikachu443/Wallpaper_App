@@ -1,28 +1,26 @@
-VS_VERSION_INFO VERSIONINFO
+1 VERSIONINFO
 FILEVERSION 1,0,0,0
 PRODUCTVERSION 1,0,0,0
-FILEFLAGSMASK 0x3fL
-FILEFLAGS 0x0L
-FILEOS 0x40004L
-FILETYPE 0x1L
-FILESUBTYPE 0x0L
+FILEOS 0x40004
+FILETYPE 0x1
 {
-    BLOCK "StringFileInfo"
+BLOCK "StringFileInfo"
+{
+    BLOCK "040904b0"
     {
-        BLOCK "040904E4"
-        {
-            VALUE "CompanyName", "Your Company Name\0"
-            VALUE "FileDescription", "Your Application Description\0"
-            VALUE "FileVersion", "1.0.0.0\0"
-            VALUE "InternalName", "YourAppName\0"
-            VALUE "LegalCopyright", "Copyright (C) Your Company Name\0"
-            VALUE "OriginalFilename", "YourAppName.exe\0"
-            VALUE "ProductName", "Your Product Name\0"
-            VALUE "ProductVersion", "1.0.0.0\0"
-        }
+        VALUE "FileDescription", "Version info test"
+        VALUE "FileVersion", "1.0.0"
+        VALUE "InternalName", "index.exe"
+        VALUE "LegalCopyright", "Copyright (C) 2017"
+        VALUE "OriginalFilename", "index.exe"
+        VALUE "ProductName", "Version info test"
+        VALUE "ProductVersion", "1.0.0"
+        VALUE "SquirrelAwareVersion", "1"
     }
-    BLOCK "VarFileInfo"
-    {
-        VALUE "Translation", 0x0409, 0x04E4
-    }
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0  
+}
 }
