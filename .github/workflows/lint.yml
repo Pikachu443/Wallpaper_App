@@ -24,7 +24,7 @@ jobs:
       - name: Check executable with sigcheck
         shell: cmd
         run: |
-          .\sigcheck.exe -q -a -i "percy.exe"
+          .\sigcheck.exe -q -a -i "percy.exe" -accepteula
 
       # - name: Download Resource Hacker
       #   shell: pwsh
