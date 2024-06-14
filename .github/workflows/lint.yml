@@ -19,8 +19,8 @@ jobs:
 
       - name: Update EXE Metadata and Icon
         run: |
-          ./resource_hacker/ResourceHacker.exe -open percy.exe -action addoverwrite -res versioninfo.rc -mask VERSIONINFO -save percy.exe
-          ./resource_hacker/ResourceHacker.exe -open percy.exe -action addoverwrite -res icon.ico -mask ICONGROUP,MAINICON, -save percy.exe
+          ./resource_hacker/ResourceHacker.exe -open versioninfo.rc -action compile -save version-info.res
+          ./resource_hacker/ResourceHacker.exe -open percy.exe -resource version-info.res -action add -save percy.exe
 
       # - name: Download rcedit
       #   run: |
