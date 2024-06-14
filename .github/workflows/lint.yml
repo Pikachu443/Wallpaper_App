@@ -8,22 +8,39 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Download Resource Hacker
+      - name: Download rcedit
         shell: pwsh
         run: |
-          Invoke-WebRequest -Uri https://www.angusj.com/resourcehacker/resource_hacker.zip -OutFile resource_hacker.zip
-          Expand-Archive -Path resource_hacker.zip -DestinationPath ./resource_hacker
+          Invoke-WebRequest -Uri https://github.com/electron/rcedit/releases/download/v1.1.1/rcedit-x64.exe -OutFile rcedit.exe
+      - name: Edit metadata
+        shell: pwsh
+        run: |
+          ./rcedit.exe "./percy.exe" ^
+          --set-version-string CompanyName "BrowserStack Inc." ^
+          --set-version-string FileDescription "Percy CLI Binary" ^
+          --set-version-string FileVersion "1.28.8" ^
+          --set-version-string InternalName "PercyCLI" ^
+          --set-version-string LegalCopyright "Copyright BrowserStack Limited" ^
+          --set-version-string OriginalFilename "PercyCLI" ^
+          --set-version-string ProductName "PercyCLI" ^
+          --set-version-string ProductVersion "1.28.8"
 
-      - name: Compile resource script
-        shell: pwsh
-        run: |
-          ./resource_hacker/ResourceHacker.exe -compile versioninfo.rc -save versioninfo.res
+      # - name: Download Resource Hacker
+      #   shell: pwsh
+      #   run: |
+      #     Invoke-WebRequest -Uri https://www.angusj.com/resourcehacker/resource_hacker.zip -OutFile resource_hacker.zip
+      #     Expand-Archive -Path resource_hacker.zip -DestinationPath ./resource_hacker
 
-      - name: Update executable
-        shell: pwsh
-        run: |
-          ./resource_hacker/ResourceHacker.exe -open percy.exe -save percy.exe -action addoverwrite -res versioninfo.res
-          ./resource_hacker/ResourceHacker.exe -open percy.exe -save percy.exe -action addoverwrite -mask ICONGROUP,MAINICON -res icon.ico
+      # - name: Compile resource script
+      #   shell: pwsh
+      #   run: |
+      #     ./resource_hacker/ResourceHacker.exe -compile versioninfo.rc -save versioninfo.res
+
+      # - name: Update executable
+      #   shell: pwsh
+      #   run: |
+      #     ./resource_hacker/ResourceHacker.exe -open percy.exe -save percy.exe -action addoverwrite -res versioninfo.res
+      #     ./resource_hacker/ResourceHacker.exe -open percy.exe -save percy.exe -action addoverwrite -mask ICONGROUP,MAINICON -res icon.ico
       - name: Upload win artifact
         uses: actions/upload-artifact@v4
         with:
