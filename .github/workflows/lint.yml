@@ -12,17 +12,16 @@ jobs:
         run: |
           Invoke-WebRequest -Uri 'https://live.sysinternals.com/sigcheck.exe' -OutFile 'sigcheck.exe'
 
-      - name: Install Windows SDK
-        run: |
-          choco install windows-sdk-10-version-1903-all
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
 
-      - name: Compile Resource File
-        run: |
-          rc.exe /fo versioninfo.res versioninfo.rc
+      - name: Install Dependencies
+        run: pip install pefile
 
-      - name: Add Version Info
-        run: |
-          mt.exe -manifest versioninfo.res -outputresource:your-app.exe;#1
+      - name: Update EXE Metadata
+        run: python update_metadata.py percy.exe
 
 
       # - name: Download Resource Hacker
