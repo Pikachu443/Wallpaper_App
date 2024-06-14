@@ -52,13 +52,13 @@ jobs:
       # - name: Debug file system
       #   run: |
       #     dir  # List directory contents for debugging
-      - name: Verify executable
-        run: ./percy_2.exe --version
-      # - name: Upload win artifact
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: percy.exe
-      #     path: percy.exe
+      # - name: Verify executable
+      #   run: ./percy_2.exe --version
+      - name: Upload win artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: percy_2.exe
+          path: percy_2.exe
 
       - name: Check executable with sigcheck
         shell: cmd
