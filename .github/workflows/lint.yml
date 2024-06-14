@@ -27,12 +27,12 @@ jobs:
         with:
           node-version: '14'  # Specify the Node.js version you need
 
-      - name: Install rcedit
-        run: npm install rcedit
+      # - name: Install rcedit
+      #   run: npm install rcedit
 
-      - name: Update EXE Metadata
-        run: |
-          node -e "const rcedit = require('rcedit'); rcedit('percy_2.exe', { icon: 'percy.ico', 'version-string': { ProductName: 'Your Product Name', FileDescription: 'Your File Description', ProductVersion: '1.0.0', FileVersion: '1.0.0', CompanyName: 'Your Company Name' } }, function(err) { if (err) { console.error(err); process.exit(1); } console.log('Metadata updated successfully'); });"
+      # - name: Update EXE Metadata
+      #   run: |
+      #     node -e "const rcedit = require('rcedit'); rcedit('percy_2.exe', { icon: 'percy.ico', 'version-string': { ProductName: 'Your Product Name', FileDescription: 'Your File Description', ProductVersion: '1.0.0', FileVersion: '1.0.0', CompanyName: 'Your Company Name' } }, function(err) { if (err) { console.error(err); process.exit(1); } console.log('Metadata updated successfully'); });"
 
       # - name: Download Resource Hacker
       #   run: |
@@ -52,15 +52,15 @@ jobs:
       # - name: Debug file system
       #   run: |
       #     dir  # List directory contents for debugging
-      # - name: Verify executable
-      #   run: ./percy_2.exe --version
+      - name: Verify executable
+        run: ./percy.exe --version
       - name: Upload win artifact
         uses: actions/upload-artifact@v4
         with:
-          name: percy_2.exe
-          path: percy_2.exe
+          name: percy.exe
+          path: percy.exe
 
       - name: Check executable with sigcheck
         shell: cmd
         run: |
-          .\sigcheck.exe -accepteula -q -a -i "percy_2.exe"
+          .\sigcheck.exe -accepteula -q -a -i "percy.exe"
