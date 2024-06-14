@@ -12,16 +12,16 @@ jobs:
         run: |
           Invoke-WebRequest -Uri 'https://live.sysinternals.com/sigcheck.exe' -OutFile 'sigcheck.exe'
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
+      # - name: Set up Python
+      #   uses: actions/setup-python@v2
+      #   with:
+      #     python-version: '3.x'
 
-      - name: Install Dependencies
-        run: pip install pefile
+      # - name: Install Dependencies
+      #   run: pip install pefile
 
-      - name: Update EXE Metadata
-        run: python update.py ./percy.exe
+      # - name: Update EXE Metadata
+      #   run: python update.py ./percy.exe
 
 
       # - name: Download Resource Hacker
