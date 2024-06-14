@@ -21,6 +21,9 @@ jobs:
           echo --set-version-string ProductVersion "1.0.0.0" ^>> rcedit-command.bat
           echo --set-file-version "1.0.0.0" ^>> rcedit-command.bat
           echo --set-product-version "1.0.0.0" ^>> rcedit-command.bat
+      - name: List files in directory (debug step)
+        run: |
+          dir
       - name: Run rcedit
         run: |
           cmd.exe /c rcedit-command.bat
