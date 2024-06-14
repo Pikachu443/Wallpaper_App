@@ -35,7 +35,7 @@ jobs:
 
       - name: Download rcedit
         run: |
-          Invoke-WebRequest -Uri https://github.com/electron/rcedit/releases/download/v1.1.1/rcedit-x64.exe -OutFile rcedit.exe
+          Invoke-WebRequest -Uri https://github.com/electron/rcedit/releases/download/v2.0.0/rcedit-x64.exe -OutFile rcedit.exe
       - name: Edit metadata
         run: |
           ./rcedit.exe "./percy.exe" --set-icon "./app/percy.ico"
