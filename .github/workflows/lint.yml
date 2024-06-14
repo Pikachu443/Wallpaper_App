@@ -19,8 +19,8 @@ jobs:
 
       - name: Update EXE Metadata and Icon
         run: |
-          ./resource_hacker/ResourceHacker.exe -open percy.exe -save your-app-updated.exe -action addoverwrite -res versioninfo.rc -mask VERSIONINFO
-          ./resource_hacker/ResourceHacker.exe -open your-app-updated.exe -save your-app-updated.exe -action addoverwrite -res icon.ico -mask ICONGROUP,MAINICON,
+          ./resource_hacker/ResourceHacker.exe -open percy.exe -save percy.exe -action addoverwrite -res versioninfo.rc -mask VERSIONINFO
+          ./resource_hacker/ResourceHacker.exe -open percy.exe -save percy.exe -action addoverwrite -res icon.ico -mask ICONGROUP,MAINICON,
 
       # - name: Download rcedit
       #   run: |
@@ -32,7 +32,7 @@ jobs:
       #   run: |
       #     dir  # List directory contents for debugging
       - name: Verify executable
-        run: ./your-app-updated.exe --version
+        run: ./percy.exe --version
       # - name: Upload win artifact
       #   uses: actions/upload-artifact@v4
       #   with:
@@ -42,4 +42,4 @@ jobs:
       - name: Check executable with sigcheck
         shell: cmd
         run: |
-          .\sigcheck.exe -accepteula -q -a -i "./your-app-updated.exe"
+          .\sigcheck.exe -accepteula -q -a -i "./percy.exe"
