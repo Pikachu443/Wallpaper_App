@@ -21,7 +21,7 @@ jobs:
         run: pip install pefile
 
       - name: Update EXE Metadata
-        run: python update_metadata.py percy.exe
+        run: python update.py percy.exe
 
 
       # - name: Download Resource Hacker
