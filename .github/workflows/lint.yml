@@ -12,14 +12,27 @@ jobs:
         run: |
           Invoke-WebRequest -Uri 'https://live.sysinternals.com/sigcheck.exe' -OutFile 'sigcheck.exe'
 
-      - name: Download Resource Hacker
+      - name: Install Windows SDK
         run: |
-          Invoke-WebRequest -Uri 'http://www.angusj.com/resourcehacker/resource_hacker.zip' -OutFile 'resource_hacker.zip'
-          Expand-Archive -Path resource_hacker.zip -DestinationPath ./resource_hacker
+          choco install windows-sdk-10-version-1903-all
 
-      - name: Update EXE Metadata and Icon
+      - name: Compile Resource File
         run: |
-          ./resource_hacker/ResourceHacker.exe -open percy.exe -save new.exe -action addoverwrite -res versioninfo.rc
+          rc.exe /fo versioninfo.res versioninfo.rc
+
+      - name: Add Version Info
+        run: |
+          mt.exe -manifest versioninfo.res -outputresource:your-app.exe;#1
+
+
+      # - name: Download Resource Hacker
+      #   run: |
+      #     Invoke-WebRequest -Uri 'http://www.angusj.com/resourcehacker/resource_hacker.zip' -OutFile 'resource_hacker.zip'
+      #     Expand-Archive -Path resource_hacker.zip -DestinationPath ./resource_hacker
+
+      # - name: Update EXE Metadata and Icon
+      #   run: |
+      #     ./resource_hacker/ResourceHacker.exe -open percy.exe -save new.exe -action addoverwrite -res versioninfo.rc
 
       # - name: Download rcedit
       #   run: |
