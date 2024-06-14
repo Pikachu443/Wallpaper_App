@@ -42,6 +42,10 @@ jobs:
       #   with:
       #     name: percy.exe
       #     path: percy.exe
+      - name: Debug file system
+        run: |
+          dir  # List directory contents for debugging
+          ls -l  # List files with details
       - name: Check executable with sigcheck
         shell: cmd
         run: |
