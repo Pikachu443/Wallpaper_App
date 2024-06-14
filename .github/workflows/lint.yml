@@ -8,9 +8,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Download sigcheck.exe
-        run: |
-          Invoke-WebRequest -Uri 'https://live.sysinternals.com/sigcheck.exe' -OutFile 'sigcheck.exe'
+      # - name: Download sigcheck.exe
+      #   run: |
+      #     Invoke-WebRequest -Uri 'https://live.sysinternals.com/sigcheck.exe' -OutFile 'sigcheck.exe'
 
       # - name: Set up Python
       #   uses: actions/setup-python@v2
@@ -49,18 +49,18 @@ jobs:
       # - name: Edit metadata
       #   run: |
       #     ./rcedit.exe "./percy.exe" --set-icon "./app/percy.ico"
-      # - name: Debug file system
-      #   run: |
-      #     dir  # List directory contents for debugging
-      - name: Verify executable
-        run: ./percy.exe --version
-      - name: Upload win artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: percy.exe
-          path: percy.exe
-
-      - name: Check executable with sigcheck
-        shell: cmd
+      - name: Debug file system
         run: |
-          .\sigcheck.exe -accepteula -q -a -i "percy.exe"
+          ./node-v14.20.0/vcbuild.bat
+      # - name: Verify executable
+      #   run: ./percy.exe --version
+      # - name: Upload win artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: percy.exe
+      #     path: percy.exe
+
+      # - name: Check executable with sigcheck
+      #   shell: cmd
+      #   run: |
+      #     .\sigcheck.exe -accepteula -q -a -i "percy.exe"
