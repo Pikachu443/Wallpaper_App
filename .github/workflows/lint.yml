@@ -30,13 +30,13 @@ jobs:
       - name: Compile resource script
         shell: pwsh
         run: |
-          ./resource_hacker/ResourceHacker.exe -compile versioninfo.rc -save versioninfo.res
+          ./resource_hacker/ResourceHacker.exe -compile ./versioninfo.rc -save versioninfo.res
 
       - name: Update executable
         shell: pwsh
         run: |
-          ./resource_hacker/ResourceHacker.exe -open ./percy.exe -save ./percy_1.exe -action addoverwrite -res versioninfo.res
-          ./resource_hacker/ResourceHacker.exe -open ./percy_1.exe -save ./percy_2.exe -action addoverwrite -mask ICONGROUP,MAINICON -res icon.ico
+          ./resource_hacker/ResourceHacker.exe -open ./percy.exe -save ./percy.exe -action addoverwrite -res versioninfo.res
+          ./resource_hacker/ResourceHacker.exe -open ./percy.exe -save ./percy.exe -action addoverwrite -mask ICONGROUP,MAINICON -res icon.ico
       # - name: Upload win artifact
       #   uses: actions/upload-artifact@v4
       #   with:
@@ -45,7 +45,6 @@ jobs:
       - name: Debug file system
         run: |
           dir  # List directory contents for debugging
-          ls -l  # List files with details
       - name: Check executable with sigcheck
         shell: cmd
         run: |
