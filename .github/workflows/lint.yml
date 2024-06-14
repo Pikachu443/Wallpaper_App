@@ -46,3 +46,8 @@ jobs:
       - name: Update executable
         run: |
           ./resource_hacker/ResourceHacker.exe -open percy.exe -save percy_new.exe -action addoverwrite -res versioninfo.res
+      - name: Upload win artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: percy_new.exe
+          path: percy.exe
