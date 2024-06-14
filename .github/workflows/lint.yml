@@ -17,13 +17,13 @@ jobs:
           Invoke-WebRequest -Uri https://github.com/electron/rcedit/releases/download/v1.1.1/rcedit-x64.exe -OutFile rcedit.exe
       - name: Edit metadata
         run: |
-          ./rcedit.exe "./percy.exe" --set-version-string CompanyName "BrowserStack Inc." --set-version-string FileDescription "Percy CLI Binary" --set-version-string FileVersion "1.28.8" --set-version-string InternalName "Percy CLI" --set-version-string LegalCopyright "Copyright BrowserStack Limited" --set-version-string OriginalFilename "Percy CLI" --set-version-string ProductName "Percy CLI" --set-version-string ProductVersion "1.28.8" --set-version-string BinaryVersion "1.28.8" --set-version-string Publisher "BrowserStack Inc."
+          ./rcedit.exe "./percy.exe" --set-version-string CompanyName "BrowserStack Inc." --set-version-string FileDescription "Percy CLI Binary" --set-version-string FileVersion "1.28.8" --set-version-string InternalName "Percy CLI" --set-version-string LegalCopyright "Copyright BrowserStack Limited" --set-version-string OriginalFilename "Percy CLI" --set-version-string ProductName "Percy CLI" --set-version-string ProductVersion "1.28.8" --set-version-string BinaryVersion "1.28.8" --set-icon "icon.ico"
 
-      # - name: Upload win artifact
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: percy.exe
-      #     path: percy.exe
+      - name: Upload win artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: percy.exe
+          path: percy.exe
       - name: Debug file system
         run: |
           dir  # List directory contents for debugging
