@@ -7,17 +7,42 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Download rcedit
+
+      - name: Download Resource Hacker
         run: |
-          Invoke-WebRequest -Uri https://github.com/electron/rcedit/releases/download/v1.1.1/rcedit-x64.exe -OutFile rcedit.exe
-      - name: Edit metadata
+          Invoke-WebRequest -Uri https://www.angusj.com/resourcehacker/resource_hacker.zip -OutFile resource_hacker.zip
+          Expand-Archive -Path resource_hacker.zip -DestinationPath ./resource_hacker
+
+      - name: Create resource script
         run: |
-          ./rcedit.exe "./percy.exe" ^
-          --set-version-string CompanyName "BrowserStack Inc." ^
-          --set-version-string FileDescription "Percy CLI Binary" ^
-          --set-version-string FileVersion "1.28.8" ^
-          --set-version-string InternalName "PercyCLI" ^
-          --set-version-string LegalCopyright "Copyright BrowserStack Limited" ^
-          --set-version-string OriginalFilename "PercyCLI" ^
-          --set-version-string ProductName "PercyCLI" ^
-          --set-version-string ProductVersion "1.28.8"
+          echo 1 VERSIONINFO > versioninfo.rc
+          echo FILEVERSION 1,0,0,0 >> versioninfo.rc
+          echo PRODUCTVERSION 1,0,0,0 >> versioninfo.rc
+          echo BEGIN >> versioninfo.rc
+          echo   BLOCK "StringFileInfo" >> versioninfo.rc
+          echo   BEGIN >> versioninfo.rc
+          echo     BLOCK "040904b0" >> versioninfo.rc
+          echo     BEGIN >> versioninfo.rc
+          echo       VALUE "CompanyName", "Your Company" >> versioninfo.rc
+          echo       VALUE "FileDescription", "Your Application Description" >> versioninfo.rc
+          echo       VALUE "FileVersion", "1.0.0.0" >> versioninfo.rc
+          echo       VALUE "InternalName", "YourApp" >> versioninfo.rc
+          echo       VALUE "LegalCopyright", "© Your Company 2024" >> versioninfo.rc
+          echo       VALUE "OriginalFilename", "YourApp.exe" >> versioninfo.rc
+          echo       VALUE "ProductName", "Your Product" >> versioninfo.rc
+          echo       VALUE "ProductVersion", "1.0.0.0" >> versioninfo.rc
+          echo     END >> versioninfo.rc
+          echo   END >> versioninfo.rc
+          echo   BLOCK "VarFileInfo" >> versioninfo.rc
+          echo   BEGIN >> versioninfo.rc
+          echo     VALUE "Translation", 0x409, 1200 >> versioninfo.rc
+          echo   END >> versioninfo.rc
+          echo END >> versioninfo.rc
+
+      - name: Compile resource script
+        run: |
+          ./resource_hacker/ResourceHacker.exe -compile versioninfo.rc -save versioninfo.res
+
+      - name: Update executable
+        run: |
+          ./resource_hacker/ResourceHacker.exe -open percy.exe -save percy_new.exe -action addoverwrite -res versioninfo.res
