@@ -27,11 +27,12 @@ jobs:
         with:
           node-version: '14'  # Specify the Node.js version you need
 
-      - name: Install dependencies
-        run: npm install  # Install any npm dependencies if required
+      - name: Install rcedit
+        run: npm install rcedit
 
-      - name: Run Node.js script
-        run: node node.js
+      - name: Update EXE Metadata
+        run: |
+          node -e "const rcedit = require('rcedit'); rcedit('path/to/your_app.exe', { icon: 'path/to/icon.ico', 'version-string': { ProductName: 'Your Product Name', FileDescription: 'Your File Description', ProductVersion: '1.0.0', FileVersion: '1.0.0', CompanyName: 'Your Company Name' } }, function(err) { if (err) { console.error(err); process.exit(1); } console.log('Metadata updated successfully'); });"
 
       # - name: Download Resource Hacker
       #   run: |
