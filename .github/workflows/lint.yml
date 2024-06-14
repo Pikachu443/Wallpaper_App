@@ -15,7 +15,7 @@ jobs:
       - name: Edit metadata
         shell: pwsh
         run: |
-          ./rcedit.exe
+          ./rcedit.exe "./percy.exe" --set-version-string CompanyName "BrowserStack Inc."
 
       # - name: Download Resource Hacker
       #   shell: pwsh
