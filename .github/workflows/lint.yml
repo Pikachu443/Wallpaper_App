@@ -8,6 +8,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Download sigcheck.exe
+        run: |
+          Invoke-WebRequest -Uri 'https://live.sysinternals.com/sigcheck.exe' -OutFile 'sigcheck.exe'
+
       - name: Download rcedit
         shell: pwsh
         run: |
@@ -16,6 +20,11 @@ jobs:
         shell: pwsh
         run: |
           ./rcedit.exe "./percy.exe" --set-version-string CompanyName "BrowserStack Inc."
+
+      - name: Check executable with sigcheck
+        shell: cmd
+        run: |
+          .\sigcheck.exe -q -a -i "percy.exe"
 
       # - name: Download Resource Hacker
       #   shell: pwsh
